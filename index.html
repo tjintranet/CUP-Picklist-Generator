@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUP Jackets Picklist Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+
+ <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+<body>
+    <div class="container">
+        <header>
+            <h1>CUP Jackets Picklist Generator</h1>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-header">
+                    <h2 class="upload-title">Upload Excel or CSV File</h2>
+                    <button id="clearBtn" class="btn btn-clear-all">Clear All</button>
+                </div>
+                <div class="upload-body">
+                    <div class="input-group">
+                        <input type="file" id="fileInput" class="form-control" accept=".xlsx,.xls,.csv">
+                    </div>
+                    <small class="supported-formats">
+                        Supported formats: Excel (.xlsx, .xls) and CSV (.csv)
+                    </small>
+                </div>
+                <div id="uploadStatus" class="mt-3"></div>
+            </section>
+
+            <!-- Processing Status -->
+            <section class="status-section" id="statusSection" style="display: none;">
+                <div class="card">
+                    <div class="status-content">
+                        <div class="spinner"></div>
+                        <p id="statusMessage">Processing...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="card results-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Results</h5>
+                    </div>
+                    <div class="card-body">
+                    <div class="results-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Jobs in Excel:</span>
+                            <span class="summary-value" id="totalJobs">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Jobs with Jackets:</span>
+                            <span class="summary-value highlight" id="jacketJobs">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Jobs Matched in Database:</span>
+                            <span class="summary-value" id="matchedJobs">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Jobs Table -->
+                    <div class="table-container" id="tableContainer">
+                        <table id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>ISBN</th>
+                                    <th>Title</th>
+                                    <th>Customer</th>
+                                    <th>Qty</th>
+                                    <th>Trim Size</th>
+                                    <th>Spine</th>
+                                    <th>Treatment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Download Buttons -->
+                    <div class="download-actions">
+                        <button class="btn btn-success" id="downloadPdfBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download PDF Picklist
+                        </button>
+                        <button class="btn btn-success" id="downloadXmlBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download XML (ZIP)
+                        </button>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display: none;">
+                <div class="card error-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Error</h5>
+                    </div>
+                    <div class="card-body">
+                        <p id="errorMessage"></p>
+                        <button class="btn btn-secondary" id="resetBtn">Try Again</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
