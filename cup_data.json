@@ -105,6 +105,21 @@
     "has_jacket": false
   },
   {
+    "isbn": "9780521887298",
+    "book_description": "Fundamentals of Inflammation Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "280",
+    "trim_width": "216",
+    "pagination": null,
+    "spine_size": "26",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9780521887298_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": false
+  },
+  {
     "isbn": "9781009009195",
     "book_description": "All the Math You Missed Cover",
     "customer": "CUP",
@@ -375,6 +390,36 @@
     "has_jacket": false
   },
   {
+    "isbn": "9781009399920",
+    "book_description": "Analytical Aircraft Flight Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "254",
+    "trim_width": "178",
+    "pagination": null,
+    "spine_size": "26",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009399920_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": false
+  },
+  {
+    "isbn": "9781009407144",
+    "book_description": "Slavery Freedom & Development Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "17",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009407144_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
+  },
+  {
     "isbn": "9781009422161",
     "book_description": "The Wars of the Roses Cover",
     "customer": "CUP",
@@ -612,6 +657,21 @@
     "pdf_url": "POD_Files/9781009536219_jkt.pdf",
     "stock_description": "Cover Paper",
     "cover_media_treatment": "Matt",
+    "has_jacket": false
+  },
+  {
+    "isbn": "9781009537841",
+    "book_description": "Entrepreneurial Finance Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "254",
+    "trim_width": "178",
+    "pagination": null,
+    "spine_size": "43",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009537841_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
     "has_jacket": false
   },
   {
@@ -975,6 +1035,21 @@
     "has_jacket": false
   },
   {
+    "isbn": "9781009648820",
+    "book_description": "The Reformation of Liturgy Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "254",
+    "trim_width": "178",
+    "pagination": null,
+    "spine_size": "17",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009648820_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": false
+  },
+  {
     "isbn": "9781009652292",
     "book_description": "Think of England Cover",
     "customer": "CUP",
@@ -990,6 +1065,21 @@
     "has_jacket": true
   },
   {
+    "isbn": "9781009652445",
+    "book_description": "Violence & Occupation Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "21",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009652445_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
+  },
+  {
     "isbn": "9781009668323",
     "book_description": "Sweet Home Feliciana Cover",
     "customer": "CUP",
@@ -1000,6 +1090,21 @@
     "spine_size": "20",
     "weight_gsm": "115",
     "pdf_url": "POD_Files/9781009668323_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
+  },
+  {
+    "isbn": "9781009680677",
+    "book_description": "Statism with Chinese Characteristics Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "23",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781009680677_jkt.pdf",
     "stock_description": "Cover Paper",
     "cover_media_treatment": "Matt",
     "has_jacket": true
@@ -1245,6 +1350,21 @@
     "has_jacket": false
   },
   {
+    "isbn": "9781108476379",
+    "book_description": "The Cambridge History of Later Latin Literature v1 Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "44",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781108476379_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
+  },
+  {
     "isbn": "9781108485692",
     "book_description": "Cyril of Alexandria: Against Julian Cover",
     "customer": "CUP",
@@ -1423,6 +1543,36 @@
     "stock_description": "Cover Paper",
     "cover_media_treatment": "Matt",
     "has_jacket": false
+  },
+  {
+    "isbn": "9781108837323",
+    "book_description": "The Cambridge History of Rights Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "41",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781108837323_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
+  },
+  {
+    "isbn": "9781316510148",
+    "book_description": "The Cambridge History of Later Latin Literature v2 Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "46",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9781316510148_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Matt",
+    "has_jacket": true
   },
   {
     "isbn": "9781316620861",
