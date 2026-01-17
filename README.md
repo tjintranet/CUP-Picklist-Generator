@@ -6,7 +6,10 @@ A web application for generating PDF picklists and XML files for Cambridge Unive
 
 - **Excel File Upload**: Upload Excel files (.xlsx, .xls) containing job information
 - **Automatic ISBN Matching**: Matches ISBN codes from Excel against the CUP database (cup_data.json)
-- **Jacket Filtering**: Automatically identifies and filters jobs marked with jackets (Jacket Y/N = true)
+- **Jacket Filtering with Double Validation**: Automatically identifies and filters jobs using dual validation:
+  - Excel must have Jacket Y/N = true
+  - JSON database must have has_jacket = true
+  - Both conditions must be met for a job to be processed
 - **PDF Picklist Generation**: Creates a formatted PDF picklist with:
   - Job summary information (job number, order date, total jobs, total quantity)
   - Detailed table with Order No, ISBN, Title, Qty, Trim Size, Treatment
@@ -188,6 +191,28 @@ Each XML file contains:
 - All processing done client-side (no server required)
 
 ## Data Processing
+
+### Double Validation for Jacket Jobs
+The application uses a **two-step validation process** to ensure data accuracy:
+
+1. **Excel Validation**: Checks if "Jacket Y/N" column = true/yes/1
+2. **Database Validation**: Verifies `has_jacket: true` in cup_data.json
+
+**Both conditions must be met** for a job to be processed. This prevents:
+- Processing non-jacket jobs accidentally marked in Excel
+- Data mismatches between Excel and the master database
+- Invalid jacket specifications being sent to production
+
+**Console Logging**: The browser console will show:
+- Number of jobs marked as jackets in Excel
+- Number matched in database with `has_jacket = true`
+- Warning list of any jobs filtered out due to database mismatch
+
+**Example Scenario:**
+- Excel shows ISBN 9780521127295 with "Jacket Y/N" = true
+- Database shows `"has_jacket": false` for this ISBN
+- Result: Job is **filtered out** and will not appear in results
+- Console warning: "1 job(s) marked as jackets in Excel but has_jacket = false in database"
 
 ### Title Cleaning
 The application automatically cleans book titles by:

@@ -142,12 +142,18 @@ function processJobs() {
     // Filter for jobs with jackets
     const jacketJobsData = excelData.filter(row => {
         const hasJacket = row['Jacket Y/N'];
+        // Handle both boolean true and string values
+        if (typeof hasJacket === 'boolean') {
+            return hasJacket === true;
+        }
         return hasJacket && (hasJacket.toLowerCase() === 'true' || hasJacket.toLowerCase() === 'yes' || hasJacket === '1');
     });
     
+    console.log(`Excel jobs with Jacket Y/N = true: ${jacketJobsData.length}`);
+    
     // Match with CUP data
     processedJobs = jacketJobsData.map(row => {
-        const isbn = row['Code'] ? row['Code'].toString().trim() : '';
+        const isbn = row['ISBN'] || row['Code'] ? (row['ISBN'] || row['Code']).toString().trim() : '';
         const cupRecord = cupData.find(item => item.isbn === isbn);
         
         return {
@@ -155,7 +161,39 @@ function processJobs() {
             cupData: cupRecord,
             isbn: isbn
         };
-    }).filter(job => job.cupData); // Only keep jobs that matched in database
+    }).filter(job => job.cupData && job.cupData.has_jacket === true); // Only keep jobs that matched in database AND have has_jacket = true
+    
+    console.log(`Jobs matched in database with has_jacket = true: ${processedJobs.length}`);
+    
+    // Log ISBNs not found in database
+    const notFoundInDb = jacketJobsData.filter(row => {
+        const isbn = row['ISBN'] || row['Code'] ? (row['ISBN'] || row['Code']).toString().trim() : '';
+        const cupRecord = cupData.find(item => item.isbn === isbn);
+        return !cupRecord;
+    });
+    
+    if (notFoundInDb.length > 0) {
+        console.error(`${notFoundInDb.length} jacket job(s) NOT FOUND in database:`);
+        notFoundInDb.forEach(row => {
+            const isbn = row['ISBN'] || row['Code'] ? (row['ISBN'] || row['Code']).toString().trim() : '';
+            console.error(`  - ISBN: ${isbn}, Title: ${row['Title']}`);
+        });
+        console.error('These ISBNs need to be added to cup_data.json');
+    }
+    
+    // Log any jobs that were filtered out due to has_jacket = false
+    const filteredOut = jacketJobsData.filter(row => {
+        const isbn = row['ISBN'] || row['Code'] ? (row['ISBN'] || row['Code']).toString().trim() : '';
+        const cupRecord = cupData.find(item => item.isbn === isbn);
+        return cupRecord && cupRecord.has_jacket === false;
+    });
+    
+    if (filteredOut.length > 0) {
+        console.warn(`${filteredOut.length} job(s) marked as jackets in Excel but has_jacket = false in database:`);
+        filteredOut.forEach(row => {
+            console.warn(`  - ISBN: ${row['ISBN'] || row['Code']}, Title: ${row['Title']}`);
+        });
+    }
     
     // Update UI
     displayResults();
@@ -166,6 +204,10 @@ function displayResults() {
     const totalJobsCount = excelData.length;
     const jacketJobsCount = excelData.filter(row => {
         const hasJacket = row['Jacket Y/N'];
+        // Handle both boolean true and string values
+        if (typeof hasJacket === 'boolean') {
+            return hasJacket === true;
+        }
         return hasJacket && (hasJacket.toLowerCase() === 'true' || hasJacket.toLowerCase() === 'yes' || hasJacket === '1');
     }).length;
     const matchedJobsCount = processedJobs.length;
@@ -174,6 +216,19 @@ function displayResults() {
     totalJobs.textContent = totalJobsCount;
     jacketJobs.textContent = jacketJobsCount;
     matchedJobs.textContent = matchedJobsCount;
+    
+    // If no matches found, show helpful error message
+    if (matchedJobsCount === 0 && jacketJobsCount > 0) {
+        hideStatus();
+        showError(`Found ${jacketJobsCount} jacket job(s) in Excel, but none matched in the database.\n\nPossible reasons:\n• ISBNs don't exist in cup_data.json\n• Database records have has_jacket = false\n\nCheck browser console (F12) for details.`);
+        return;
+    }
+    
+    if (matchedJobsCount === 0 && jacketJobsCount === 0) {
+        hideStatus();
+        showError('No jacket jobs found in Excel file. Make sure the "Jacket Y/N" column contains True values.');
+        return;
+    }
     
     // Populate table
     resultsBody.innerHTML = '';

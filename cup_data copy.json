@@ -1,0 +1,62 @@
+[
+  {
+    "isbn": "9780521127295",
+    "book_description": "The Cambridge Grammar of Classical Greek Cover",
+    "customer": "CUP",
+    "binding_type": "Limp",
+    "trim_height": "244",
+    "trim_width": "170",
+    "pagination": null,
+    "spine_size": "43",
+    "weight_gsm": "240",
+    "pdf_url": "POD_Files/9780521127295_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": false
+  },
+  {
+    "isbn": "9780521173889",
+    "book_description": "The Cambridge Companion to Roman Comedy Cover",
+    "customer": "CUP",
+    "binding_type": "Limp",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "23",
+    "weight_gsm": "240",
+    "pdf_url": "POD_Files/9780521173889_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": false
+  },
+  {
+    "isbn": "9780521192873",
+    "book_description": "Democratic Policymaking Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "254",
+    "trim_width": "203",
+    "pagination": null,
+    "spine_size": "29",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9780521192873_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": true
+  },
+  {
+    "isbn": "9780521198639",
+    "book_description": "Temporal Dynamics and Ecological Process Cover",
+    "customer": "CUP",
+    "binding_type": "Cased",
+    "trim_height": "229",
+    "trim_width": "152",
+    "pagination": null,
+    "spine_size": "21",
+    "weight_gsm": "115",
+    "pdf_url": "POD_Files/9780521198639_jkt.pdf",
+    "stock_description": "Cover Paper",
+    "cover_media_treatment": "Gloss",
+    "has_jacket": true
+  }
+]
