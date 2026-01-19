@@ -10,13 +10,15 @@ A web application for generating PDF picklists and XML files for Cambridge Unive
   - Excel must have Jacket Y/N = true
   - JSON database must have has_jacket = true
   - Both conditions must be met for a job to be processed
-- **PDF Picklist Generation**: Creates a formatted PDF picklist with:
+- **PDF Picklist Generation**: Creates a formatted PDF picklist in landscape orientation with:
   - Job summary information (job number, order date, total jobs, total quantity)
-  - Detailed table with Order No, ISBN, Title, Qty, Trim Size, Treatment
+  - Detailed table with Order No, ISBN, Title, Qty, Trim Size, Treatment, Jacket Route
+  - Jacket Route logic: 280×216mm = Indigo, all other sizes = Ricoh
   - Code 128 barcodes for each ISBN for easy scanning
   - Automatic pagination with repeated headers
+  - More room for book titles in landscape format
 - **XML Export**: Generates individual XML files for each jacket job packaged in a ZIP file
-- **Results Dashboard**: Shows total jobs, jacket jobs, and matched jobs with detailed table preview
+- **Results Dashboard**: Shows total jobs, jacket jobs, and matched jobs with detailed table preview including Jacket Route column
 - **Clean Title Processing**: Automatically removes "Cover" suffix from book titles
 - **Responsive Design**: Works on desktop and mobile devices
 
@@ -120,17 +122,22 @@ The Excel file should contain the following columns:
 ### Table Columns
 1. **Order No**: Customer order number for tracking
 2. **ISBN**: Book ISBN-13 number
-3. **Title**: Book title (automatically cleaned - "Cover" suffix removed)
+3. **Title**: Book title (automatically cleaned - "Cover" suffix removed) - more room in landscape format
 4. **Qty**: Quantity of jackets required
 5. **Trim Size**: Book dimensions (Height × Width in mm)
 6. **Treatment**: Cover finish (Matt/Gloss)
-7. **Barcode**: Code 128 barcode of ISBN for scanning
+7. **Jacket Route**: Production route based on trim size
+   - **Indigo**: 280mm × 216mm trim size
+   - **Ricoh**: All other trim sizes
+8. **Barcode**: Code 128 barcode of ISBN for scanning
 
 ### Features
+- **Landscape orientation** for more room for titles and additional columns
 - Automatic page breaks with header repetition
-- Compact layout fitting ~25 jobs per page
+- Compact layout fitting ~15-20 jobs per page
 - Professional formatting suitable for production use
 - Scannable barcodes for inventory management
+- Bold jacket route for easy visual identification
 
 ## XML Output Structure
 
@@ -156,6 +163,7 @@ Each XML file contains:
         <TrimWidth unit="mm">152</TrimWidth>
         <SpineSize unit="mm">49</SpineSize>
         <Pagination></Pagination>
+        <JacketRoute>Ricoh</JacketRoute>
     </Specifications>
     <Materials>
         <StockDescription>Cover Paper</StockDescription>
