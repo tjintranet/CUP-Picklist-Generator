@@ -235,6 +235,7 @@ function displayResults() {
     processedJobs.forEach(job => {
         const row = document.createElement('tr');
         const title = cleanTitle(job.cupData.book_description || job.excelData.Title || 'N/A');
+        const jacketRoute = getJacketRoute(job.cupData.trim_height, job.cupData.trim_width);
         row.innerHTML = `
             <td>${job.cupData.isbn}</td>
             <td>${title}</td>
@@ -243,6 +244,7 @@ function displayResults() {
             <td>${job.cupData.trim_height || 'N/A'} × ${job.cupData.trim_width || 'N/A'} mm</td>
             <td>${job.cupData.spine_size || 'N/A'} mm</td>
             <td>${job.cupData.cover_media_treatment || 'N/A'}</td>
+            <td><strong>${jacketRoute}</strong></td>
         `;
         resultsBody.appendChild(row);
     });
@@ -259,7 +261,11 @@ function displayResults() {
 // Generate PDF Picklist
 async function generatePdfPicklist() {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+    });
     
     // Get job number from first row
     const jobNumber = excelData[0]['Pace Job No'] || 'Unknown';
@@ -285,20 +291,21 @@ async function generatePdfPicklist() {
     doc.text(`Total Jacket Jobs: ${processedJobs.length}`, 14, 48);
     doc.text(`Total Jackets Required: ${totalQuantity}`, 14, 54);
     
-    // Table headers
+    // Table headers (landscape orientation allows more room)
     let yPosition = 64;
     doc.setFontSize(9);
     doc.setFont(undefined, 'bold');
     doc.text('Order No', 14, yPosition);
-    doc.text('ISBN', 40, yPosition);
-    doc.text('Title', 72, yPosition);
-    doc.text('Qty', 115, yPosition);
-    doc.text('Trim Size', 130, yPosition);
-    doc.text('Treatment', 155, yPosition);
-    doc.text('ISBN', 180, yPosition);
+    doc.text('ISBN', 42, yPosition);
+    doc.text('Title', 75, yPosition);
+    doc.text('Qty', 155, yPosition);
+    doc.text('Trim Size', 167, yPosition);
+    doc.text('Treatment', 195, yPosition);
+    doc.text('Jacket Route', 220, yPosition);
+    doc.text('Barcode', 250, yPosition);
     
     // Draw line under headers
-    doc.line(14, yPosition + 2, 196, yPosition + 2);
+    doc.line(14, yPosition + 2, 283, yPosition + 2);
     
     // Table content
     yPosition += 8;
@@ -307,21 +314,22 @@ async function generatePdfPicklist() {
     for (let i = 0; i < processedJobs.length; i++) {
         const job = processedJobs[i];
         
-        // Check if we need a new page
-        if (yPosition > 260) {
+        // Check if we need a new page (landscape has more vertical space: ~185mm usable)
+        if (yPosition > 185) {
             doc.addPage();
             yPosition = 20;
             
             // Repeat headers on new page
             doc.setFont(undefined, 'bold');
             doc.text('Order No', 14, yPosition);
-            doc.text('ISBN', 40, yPosition);
-            doc.text('Title', 72, yPosition);
-            doc.text('Qty', 115, yPosition);
-            doc.text('Trim Size', 130, yPosition);
-            doc.text('Treatment', 155, yPosition);
-            doc.text('ISBN', 180, yPosition);
-            doc.line(14, yPosition + 2, 196, yPosition + 2);
+            doc.text('ISBN', 42, yPosition);
+            doc.text('Title', 75, yPosition);
+            doc.text('Qty', 155, yPosition);
+            doc.text('Trim Size', 167, yPosition);
+            doc.text('Treatment', 195, yPosition);
+            doc.text('Jacket Route', 220, yPosition);
+            doc.text('Barcode', 250, yPosition);
+            doc.line(14, yPosition + 2, 283, yPosition + 2);
             yPosition += 8;
             doc.setFont(undefined, 'normal');
         }
@@ -330,24 +338,30 @@ async function generatePdfPicklist() {
         const isbn = job.cupData.isbn || 'N/A';
         const rawTitle = job.cupData.book_description || job.excelData.Title || 'N/A';
         const cleanedTitle = cleanTitle(rawTitle);
-        const title = truncateText(cleanedTitle, 25);
+        const title = truncateText(cleanedTitle, 50); // More room in landscape for title
         const qty = job.excelData.Qty || '1';
         const trimSize = `${job.cupData.trim_height}×${job.cupData.trim_width}`;
-        const treatment = truncateText(job.cupData.cover_media_treatment || 'N/A', 10);
+        const treatment = truncateText(job.cupData.cover_media_treatment || 'N/A', 12);
+        const jacketRoute = getJacketRoute(job.cupData.trim_height, job.cupData.trim_width);
         
         doc.text(orderNo.toString(), 14, yPosition);
-        doc.text(isbn, 40, yPosition);
-        doc.text(title, 72, yPosition);
-        doc.text(qty.toString(), 115, yPosition);
-        doc.text(trimSize, 130, yPosition);
-        doc.text(treatment, 155, yPosition);
+        doc.text(isbn, 42, yPosition);
+        doc.text(title, 75, yPosition);
+        doc.text(qty.toString(), 155, yPosition);
+        doc.text(trimSize, 167, yPosition);
+        doc.text(treatment, 195, yPosition);
+        
+        // Add Jacket Route with bold font
+        doc.setFont(undefined, 'bold');
+        doc.text(jacketRoute, 220, yPosition);
+        doc.setFont(undefined, 'normal');
         
         // Generate and add barcode
         try {
             const barcodeDataUrl = await generateBarcode(isbn);
             if (barcodeDataUrl) {
-                // Add barcode image to PDF (small size, positioned to the right)
-                doc.addImage(barcodeDataUrl, 'PNG', 175, yPosition - 4, 20, 6);
+                // Add barcode image to PDF (positioned in the barcode column)
+                doc.addImage(barcodeDataUrl, 'PNG', 248, yPosition - 4, 25, 6);
             }
         } catch (error) {
             console.error('Error generating barcode for ISBN:', isbn, error);
@@ -356,12 +370,12 @@ async function generatePdfPicklist() {
         yPosition += 10; // Increased spacing to accommodate barcode
     }
     
-    // Footer
+    // Footer (landscape A4 height is 210mm)
     const pageCount = doc.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
         doc.setFontSize(8);
-        doc.text(`Page ${i} of ${pageCount}`, 14, 287);
+        doc.text(`Page ${i} of ${pageCount}`, 14, 203);
     }
     
     // Save PDF
@@ -436,6 +450,7 @@ function createJobXml(job) {
     const excelData = job.excelData;
     const rawTitle = cupData.book_description || excelData['Title'] || '';
     const cleanedTitle = cleanTitle(rawTitle);
+    const jacketRoute = getJacketRoute(cupData.trim_height, cupData.trim_width);
     
     return `<?xml version="1.0" encoding="UTF-8"?>
 <BookJacket>
@@ -456,6 +471,7 @@ function createJobXml(job) {
         <TrimWidth unit="mm">${cupData.trim_width || ''}</TrimWidth>
         <SpineSize unit="mm">${cupData.spine_size || ''}</SpineSize>
         <Pagination>${cupData.pagination || ''}</Pagination>
+        <JacketRoute>${jacketRoute}</JacketRoute>
     </Specifications>
     <Materials>
         <StockDescription>${escapeXml(cupData.stock_description || '')}</StockDescription>
@@ -491,6 +507,19 @@ function cleanTitle(title) {
     if (!title) return '';
     // Remove ' Cover' from the end (case insensitive)
     return title.replace(/\s+Cover\s*$/i, '').trim();
+}
+
+// Determine jacket route based on trim size
+function getJacketRoute(trimHeight, trimWidth) {
+    // Convert to numbers for comparison
+    const height = parseFloat(trimHeight);
+    const width = parseFloat(trimWidth);
+    
+    // If trim is 280mm × 216mm, route to Indigo, otherwise Ricoh
+    if (height === 280 && width === 216) {
+        return 'Indigo';
+    }
+    return 'Ricoh';
 }
 
 // Show status
