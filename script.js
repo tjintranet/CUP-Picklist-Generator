@@ -418,7 +418,8 @@ async function generateXmlFiles() {
     // Add each XML file to the zip
     processedJobs.forEach((job, index) => {
         const xml = createJobXml(job);
-        const filename = `${job.cupData.isbn}_jacket.xml`;
+        const orderNo = job.excelData['Customer Order No.'] || 'NoOrder';
+        const filename = `${orderNo}-${job.cupData.isbn}_jacket.xml`;
         zip.file(filename, xml);
     });
     

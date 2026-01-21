@@ -105,7 +105,7 @@ The Excel file should contain the following columns:
 - Creates a ZIP file containing individual XML files for each jacket job
 - Each XML includes complete job and specification details
 - File name format: `Jacket_XML_[JobNumber]_[Date].zip`
-- Individual XML files named: `[ISBN]_jacket.xml`
+- Individual XML files named: `[OrderNo]-[ISBN]_jacket.xml`
 
 ### 5. Clear Data
 - Click "Clear All" to reset the application and start over
